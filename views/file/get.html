@@ -1,0 +1,11 @@
+{{extend 'layout.html'}}
+{{=SCRIPT(_src=URL('static','js/ZeroClipboard.min.js'))}}
+{{=SCRIPT("ZeroClipboard.setMoviePath('" + URL('static','swf/ZeroClipboard10.swf') + "');")}}
+{{=SCRIPT("$(function(){var clip = new ZeroClipboard.Client();clip.setText('" + file.short_url + "');clip.glue( 'd_clip_button' );clip.addEventListener( 'onComplete', my_complete );})")}}
+{{=H2(file.name)}}
+{{=SCRIPT("function my_complete( client, text ) {alert('Copied text to clipboard: ' + text );}")}}
+{{=H3(file.filename)}}
+{{=image_output}}
+{{=BR()}}{{=BR()}}
+{{=DIV(A('Download File', _href=URL('default', 'download',args=file.file)), _style='width:200px;text-align:center;border:1px solid black;padding:5px;')}}
+{{=DIV('Copy Link To Clipboard', _id='d_clip_button', _style='width:200px;text-align:center;border:1px solid black;padding:5px;')}}
