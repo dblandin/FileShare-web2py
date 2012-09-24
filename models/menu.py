@@ -22,6 +22,8 @@ response.google_analytics_id = None
 #########################################################################
 
 response.menu = [
+    (T('Upload File'), False, URL('file','new'), []),
+    (T('Your Files'), False, URL('file','index'), [])
     ]
 
 #########################################################################

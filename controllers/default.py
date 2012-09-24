@@ -10,8 +10,7 @@
 #########################################################################
 
 def index():
-    message = 'Hello'
-    return dict(message=message)
+    redirect(URL('file', 'new'))
 
 def user():
     """
