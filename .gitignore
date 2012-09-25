@@ -30,7 +30,7 @@ pip-log.txt
 *.bak
 *.pyc 
 cache/ 
-databases/* 
+databases/ 
 errors/ 
 sessions/  
 private/
