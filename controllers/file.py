@@ -9,12 +9,13 @@ def index():
         # hide id and access_token from grid
         db.file.id.readable = False
         db.file.access_token.readable = False
+        db.file.file.readable = False
 
         # define the query object. Here we are pulling all files belonging to the currently signed in user
         query = (db.file.posted_by==auth.user)
         
         # define the fields to show on grid
-        fields = (db.file.id, db.file.name, db.file.filename, db.file.short_url, db.file.posted_on, db.file.access_token)
+        fields = (db.file.id, db.file.file, db.file.name, db.file.filename, db.file.short_url, db.file.posted_on, db.file.access_token)
 
         # define headers as tuples/dictionaries
         headers = {'file.id':   'ID',
@@ -24,12 +25,13 @@ def index():
            'file.posted_on': 'Created At' }
            
         # define additional links
-        links = [lambda row: A(SPAN('', _class='icon magnifier icon-zoom-in') + SPAN('View', _class='buttontext button'), _class='w2p_trap button btn', _href=URL("file","get",args=[row.access_token]))]
+        links = [lambda row: A(SPAN('', _class='icon magnifier icon-zoom-in') + SPAN('View', _class='buttontext button'), _class='w2p_trap button btn', _href=URL("file","get",args=[row.access_token])), lambda row: A(SPAN('', _class='icon-download-alt') + SPAN('Download', _class='buttontext button'), _class='w2p_trap button btn', _href=URL("default","download",args=[row.file]))]
 
         # define sort order
         default_sort_order=[db.file.posted_on]
         files = SQLFORM.grid(query=query, fields=fields, headers=headers, links=links, orderby=default_sort_order,
                 create=False, editable=False, searchable=False, details=False, maxtextlength=64, paginate=25)
+        
         return dict(files=files)
 
 def new():
