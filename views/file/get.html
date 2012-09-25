@@ -1,13 +1,15 @@
 {{extend 'layout.html'}}
+<!-- ZeroClipboard -->
 {{=SCRIPT(_src=URL('static','js/ZeroClipboard.min.js'))}}
 {{=SCRIPT("ZeroClipboard.setMoviePath('" + URL('static','swf/ZeroClipboard10.swf') + "');")}}
 {{=SCRIPT("$(function(){var clip = new ZeroClipboard.Client();clip.setText('" + file.short_url + "');clip.glue( 'd_clip_button' );clip.addEventListener( 'onComplete', my_complete );$('#d_clip_button a').tooltip({placement: 'right'})})")}}
-{{=H2(file.name)}}
 {{=SCRIPT("function my_complete( client, text ) {$('#d_clip_button a').tooltip('show');window.setTimeout(function() {$('#d_clip_button a').tooltip('hide');}, 800)}")}}
+
+{{=H2(file.name)}}
 {{=H4(file.filename)}}
 {{=output}}
-{{=BR()}}{{=BR()}}
+
 {{=DIV(A('Download File', _href=URL('default', 'download',args=file.file)), _style='width:200px;text-align:center;border:1px solid black;padding:5px;')}}
 {{=DIV(SPAN(file.short_url) + "  " + SPAN(A('Copy Link', _rel="tooltip", _title="Copied!", _style='color: white;'), _id='d_clip_button', _style='font-size:10px;padding:5px;text-align:center;background-color: #61B3DE;-webkit-border-radius: 20px;border-radius: 20px;-moz-border-radius: 20px'), _style='width:200px;text-align:center;border:1px solid black;padding:5px;')}}
-{{=BR()}}
-{{=LOAD('file','comments.load', args=[file.id],ajax=True)}}
+
+{{=LOAD('file','comments.load', args=[file.id], ajax=True)}}

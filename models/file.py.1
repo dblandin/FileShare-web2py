@@ -1,0 +1,9 @@
+# coding: utf8
+from gluon.tools import Auth, Crud, Service, PluginManager, prettydate
+auth = Auth(db)
+
+db.define_table('file', Field('file','upload', required=True), Field('name', required=True), Field('filename'), Field('ext'), Field('access_token', required=True, unique=True), Field('short_url'), Field('posted_by', 'reference auth_user', default=auth.user_id), Field('posted_on', 'datetime', writable=False, default=request.now), Field('content', 'text'))
+db.file.name.requires = IS_NOT_EMPTY()
+db.file.file.requires = IS_NOT_EMPTY()
+db.file.posted_by.writable=False
+db.file.posted_on.writable=False

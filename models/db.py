@@ -14,15 +14,21 @@ if not request.env.web2py_runtime_gae:
     db = DAL('sqlite://storage.sqlite')
     from gluon.tools import Auth, Crud, Service, PluginManager, prettydate
     auth = Auth(db)
-    ## create all tables needed by auth if not custom tables
-    auth.define_tables(username=False, signature=False)
+    
     db.define_table('file', Field('file','upload', required=True), Field('name', required=True), Field('filename'), Field('ext'), Field('access_token', required=True, unique=True), Field('short_url'), Field('posted_by', 'reference auth_user', default=auth.user_id), Field('posted_on', 'datetime', writable=False, default=request.now), Field('content', 'text'))
     db.file.name.requires = IS_NOT_EMPTY()
     db.file.file.requires = IS_NOT_EMPTY()
+    db.file.posted_by.writable=False
+    db.file.posted_on.writable=False
+    
     db.define_table('comment', Field('body', 'text',label='Your comment'), Field('file', 'reference file'), Field('posted_by', 'reference auth_user', default=auth.user_id), Field('posted_on', 'datetime', writable=False, default=request.now))
     db.comment.body.requires = IS_NOT_EMPTY()
     db.comment.posted_by.writable=False
     db.comment.posted_on.writable=False
+    
+    ## create all tables needed by auth if not custom tables
+    auth.define_tables(username=False, signature=False)
+    
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
     db = DAL('google:datastore')
